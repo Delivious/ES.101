@@ -29,7 +29,7 @@ void setup() {
   pinMode(sensor, INPUT);
   Serial.println("Connecting to WiFi...");
   while(status != WL_CONNECTED){
-    Serial.println(".");
+    Serial.print(".");
     status = WiFi.begin(ssid, pass);
     delay(10000);
   }
@@ -45,15 +45,12 @@ void loop() {
   if (val==HIGH){
 
     client.beginRequest();
-    Serial.println("Motion");
     digitalWrite(led, HIGH);
     
-    Serial.println();
     client.post("/api/logs");
     client.beginBody();
     client.endRequest();
     int statusCode = client.responseStatusCode();
-    Serial.println("Sent Signal!");
     delay(1000);
   }
   else{
