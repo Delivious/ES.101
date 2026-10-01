@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        {% for log in data.logs %}
+            <li>Motion At: {{ log.time }}</li>
+        {% endfor %}
+    </ul>
+    <script>
+        let listCount = parseInt({{ data.logs|length }});
+        console.log(listCount);
+        setInterval(()=>{
+            fetch('/api/returnLogs')
+                .then(response => response.json())
+                .then(data => {
+                    let listLen = data.length;
+                    console.log(listLen);
+                    if (listLen > listCount) {
+                        listCount = listLen;
+                        window.location.reload();
+                    }
+                });
+        }, 1000)
+    </script>
+</body>
+</html>
